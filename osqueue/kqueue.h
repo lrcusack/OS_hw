@@ -26,20 +26,19 @@ static inline struct kqueue* kq_create(void){
 
 static inline void kq_delete(struct kqueue *kq){
 	struct node* curr = kq->head;
-	int count=0;
-	int ii=0;
-	
-	for(ii; ii < (kq->length-1); ii++){
-		count++;
+	int ii;
+	for(ii=0; ii < (kq->length-1); ii++){
+
 		kq->head=kq->head->next;
 		kfree(curr);
 		curr=kq->head;
 	}
 	
 	if(kq->head==kq->tail){
-		count++;
 		kfree(kq->head);
-	}	
+	}
+	
+	kfree(kq);	
 	
 	return;
 }
