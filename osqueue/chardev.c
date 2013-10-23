@@ -17,7 +17,7 @@ static struct file_operations fops = {
 static int device_open(struct inode *inode, struct file *file)
 {
 	try_module_get(THIS_MODULE);
-	kq = kq_create();
+	//kq = kq_create();
 
 	return 0;
 }
@@ -41,7 +41,7 @@ static ssize_t device_write(struct file *filp, const char *buff,
 	if (copy_len == amnt_copied)
 		return -EINVAL;
 		
-	kq_enqueue(kq,(void*)buff);
+	//kq_enqueue(kq,(void*)buff);
 
 	return copy_len - amnt_copied;
 }
@@ -58,7 +58,7 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 	if (amnt_left <= 0)
 		return 0;
 		
-	buffer = (char*) kq_dequeue(kq);
+	//buffer = (char*) kq_dequeue(kq);
 	
 	/* NOTE: copy_to_user returns the amount of bytes _not_ copied */
 	amnt_copied = copy_to_user(buffer, copy_position, copy_len);
