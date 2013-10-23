@@ -51,6 +51,7 @@ pthread_mutex_t* thor;
 pthread_cond_t* ironman;
 struct ll* requests_l;
 struct ring* requests_r;
+static int qdev;
 
 
 /* 
@@ -270,10 +271,10 @@ server_thread_pool_blocking(int accept_fd)
 }
 
 void*
-kernel_worker(void* qdev_p)
+kernel_worker()
 {
 //worker routine
-	int qdev = (int) qdev_p;
+	//int qdev = (int) qdev_p;
 	char fd_b[INTBUF];
 	int fd;
 
@@ -288,7 +289,9 @@ kernel_worker(void* qdev_p)
 void
 server_char_device_queue(int accept_fd)
 {
-	int qdev = open("/dev/osqueue",O_RDWR);
+	printf("called server subroutine\n");
+	qdev = open("/dev/osqueue",O_RDWR);
+	printf("got file descriptor for osqueue\n");
 	int fd;
 	
 	pthread_t pool[MAX_CONCURRENCY];
@@ -296,13 +299,15 @@ server_char_device_queue(int accept_fd)
 
 	//create threads
 	for(ii=0; ii<MAX_CONCURRENCY; ii++){
-		pthread_create(&pool[ii],NULL,&kernel_worker,(void*)qdev);
+		pthread_create(&pool[ii],NULL,&kernel_worker,NULL);
 		//printf("made thread: %d\n",(int) pool[ii]);
 	}
-	
+	printf("created threads\n");
 	while(1){
 		fd = server_accept(accept_fd);
-		write(qdev, (const char*) fd, INTBUF);		
+		printf("accepted request\n");
+		write(qdev, (const char*) fd, INTBUF);	
+		printf("wrote to device\n");	
 	}
 	
 	close(qdev);
