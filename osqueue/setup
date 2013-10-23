@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rmmod chardev
+rm /dev/hello
+make
+insmod chardev.ko
+lsmod | grep chardev
+dmesg | grep chardev
+echo "Please enter: mknod /dev/osqueue c [Major] 0"
