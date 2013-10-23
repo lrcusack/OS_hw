@@ -1,6 +1,4 @@
-
 #include "chardev.h"
-#include <linux/malloc.h>
 #include <linux/slab.h>
 
 struct node{
@@ -34,13 +32,13 @@ static inline void kq_delete(struct kqueue *kq){
 	for(ii; ii < (kq->length-1); ii++){
 		count++;
 		kq->head=kq->head->next;
-		kfree(curr, GFP_KERNEL);
+		kfree(curr);
 		curr=kq->head;
 	}
 	
 	if(kq->head==kq->tail){
 		count++;
-		kfree(kq->head, GFP_KERNEL);
+		kfree(kq->head);
 	}	
 	
 	return;
@@ -85,7 +83,7 @@ static inline void* kq_dequeue(struct kqueue *kq){
 	kq->head=kq->head->next;
 	
 	kq->length--;	
-	kfree(pop, GFP_KERNEL);
+	kfree(pop);
 
 	return p;
 }
