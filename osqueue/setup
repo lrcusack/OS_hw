@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rmmod chardev
-rm /dev/hello
+rm /dev/osqueue
 make
 insmod chardev.ko
 lsmod | grep chardev
