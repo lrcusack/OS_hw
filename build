@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd osqueue
+bash setup
+cd ../http_server
+make
+cd ..

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+wget http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+rpm -K rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+rpm -i rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+yum install git
+
+
+CURRENT_DIR=$PWD
+cd /etc/pki/tls/certs
+curl http://curl.haxx.se/ca/cacert.pem | awk 'split_after==1{n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1} {print > "cert" n ".pem"}'
+cd $CURRENT_DIR
