@@ -4,4 +4,6 @@ cd osqueue
 bash setup
 cd ../http_server
 make
+./server 8080 8
+cd ..
 

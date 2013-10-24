@@ -293,6 +293,7 @@ server_char_device_queue(int accept_fd)
 	qdev = open("/dev/osqueue",O_RDWR);
 	printf("got file descriptor for osqueue\n");
 	int fd;
+	char fdstring[10];
 	
 	pthread_t pool[MAX_CONCURRENCY];
 	int ii;
@@ -306,8 +307,10 @@ server_char_device_queue(int accept_fd)
 	while(1){
 		fd = server_accept(accept_fd);
 		printf("accepted request\n");
-		write(qdev, (const char*) fd, INTBUF);	
-		printf("wrote to device\n");	
+		sprintf(fdstring,"%d",fd);
+		write(qdev, fdstring, INTBUF);	
+		printf("wrote to device\n");
+		memset(fdstring,"0",sizeof(fdstring));
 	}
 	
 	close(qdev);
