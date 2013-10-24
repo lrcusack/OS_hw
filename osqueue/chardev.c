@@ -10,8 +10,7 @@ static struct file_operations fops = {
 	.read = device_read,
 	.write = device_write,
 	.open = device_open,
-	.release = device_release//,
-	//.close = device_close
+	.release = device_release
 };
 
 static int device_open(struct inode *inode, struct file *file)
@@ -25,6 +24,7 @@ static int device_open(struct inode *inode, struct file *file)
 
 static int device_release(struct inode *inode, struct file *file)
 {
+	kq_delete(kq);
 	module_put(THIS_MODULE);
 	return 0;
 }
