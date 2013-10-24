@@ -4,7 +4,7 @@
 /* Globals localized to file (by use of static */
 static int Major;		/* assigned to device driver */
 static char msg[BUF_LEN];	/* a stored message */
-static kqueue* kq;
+kqueue* kq;
 
 static struct file_operations fops = {
 	.read = device_read,
