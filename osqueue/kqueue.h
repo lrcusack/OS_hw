@@ -2,7 +2,7 @@
 #include <linux/slab.h>
 
 struct node{
-	char[10] val;
+	char val[10];
 	struct node* next;
 };
 
@@ -43,7 +43,7 @@ static inline void kq_delete(struct kqueue *kq){
 	return;
 }
 
-static inline int kq_enqueue(struct kqueue *kq, char *string[0]){
+static inline int kq_enqueue(struct kqueue *kq, char string[10]){
 
 	struct node* new;
 	new=(struct node*) kmalloc(sizeof(struct node),GFP_KERNEL);
@@ -54,7 +54,7 @@ static inline int kq_enqueue(struct kqueue *kq, char *string[0]){
 		return 0;
 	}
 	
-	strcpy(new->val,value);
+	strcpy(new->val,string);
 	
 	if(kq->length==0){
 		new->next=NULL;
@@ -73,16 +73,15 @@ static inline int kq_enqueue(struct kqueue *kq, char *string[0]){
 	return 1;
 }
 
-static inline char[10] kq_dequeue(struct kqueue *kq){
+static inline void kq_dequeue(struct kqueue *kq,char element[10]){
 	
 	struct node* pop =kq->head;
-	char[10] p;
 	
-	strcpy(p,kq->head->val);
+	strcpy(element,kq->head->val);
 	kq->head=kq->head->next;
 	
 	kq->length--;
 	kfree(pop);
 
-	return p;
+	return ;
 }

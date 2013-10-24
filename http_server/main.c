@@ -310,7 +310,7 @@ server_char_device_queue(int accept_fd)
 		sprintf(fdstring,"%d",fd);
 		write(qdev, fdstring, INTBUF);	
 		printf("wrote to device\n");
-		memset(fdstring,"0",sizeof(fdstring));
+		memset(fdstring,"\0",sizeof(fdstring));
 	}
 	
 	close(qdev);

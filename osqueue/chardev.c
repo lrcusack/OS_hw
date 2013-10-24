@@ -41,7 +41,7 @@ static ssize_t device_write(struct file *filp, const char *buff,
 	if (copy_len == amnt_copied)
 		return -EINVAL;
 		
-	kq_enqueue(kq,buff);
+	kq_enqueue(kq,(char*)buff);
 
 	return copy_len - amnt_copied;
 }
@@ -51,17 +51,16 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 {
 	unsigned long amnt_copied;
 	int amnt_left = BUF_LEN;
-	char *copy_position = msg ;
 	int copy_len = len > amnt_left ? amnt_left : len;
 
 	/* are we at the end of the buffer? */
 	if (amnt_left <= 0)
 		return 0;
 		
-	buffer = (char*) kq_dequeue(kq);
+	kq_dequeue(kq,msg);
 	
 	/* NOTE: copy_to_user returns the amount of bytes _not_ copied */
-	amnt_copied = copy_to_user(buffer, copy_position, copy_len);
+	amnt_copied = copy_to_user(buffer, msg, copy_len);
 	if (copy_len == amnt_copied)
 		return -EINVAL;
 
