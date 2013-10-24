@@ -2,8 +2,8 @@
 
 rmmod chardev
 rm /dev/osqueue
-make
+make all
 insmod chardev.ko
 lsmod | grep chardev
 dmesg | grep chardev
-echo "Please enter: mknod /dev/osqueue c [Major] 0"
+make device
