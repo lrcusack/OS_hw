@@ -41,7 +41,9 @@ static ssize_t device_write(struct file *filp, const char *buff,
 	if (copy_len == amnt_copied)
 		return -EINVAL;
 		
+
 	kq_enqueue(kq,(char*)buff);
+
 
 	return copy_len - amnt_copied;
 }
