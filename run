@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd http_server
-./server 8080 
+./server 8080 8
 cd ..

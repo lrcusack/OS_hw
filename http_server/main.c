@@ -291,6 +291,7 @@ server_char_device_queue(int accept_fd)
 {
 	printf("called server subroutine\n");
 	qdev = open("/dev/osqueue",O_RDWR);
+	if(qdev==-1) printf("error opening /dev/osqueue");
 	printf("got file descriptor for osqueue\n");
 	int fd;
 	char fdstring[10];
@@ -308,9 +309,10 @@ server_char_device_queue(int accept_fd)
 		fd = server_accept(accept_fd);
 		printf("accepted request\n");
 		sprintf(fdstring,"%d",fd);
-		write(qdev, fdstring, INTBUF);	
+		write(qdev, fdstring, sizeof(fdstring));	
 		printf("wrote to device\n");
-		memset(fdstring,"\0",sizeof(fdstring));
+		bzero(fdstring,sizeof(fdstring));
+		break;
 	}
 	
 	close(qdev);

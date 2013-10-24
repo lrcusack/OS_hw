@@ -16,8 +16,8 @@ static struct file_operations fops = {
 
 static int device_open(struct inode *inode, struct file *file)
 {
-	try_module_get(THIS_MODULE);
 	kq = kq_create();
+	try_module_get(THIS_MODULE);
 
 	return 0;
 }
