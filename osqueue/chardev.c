@@ -50,8 +50,8 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 			   loff_t * offset)
 {
 	unsigned long amnt_copied;
-	int amnt_left = BUF_LEN - *offset;
-	char *copy_position = msg + *offset;
+	int amnt_left = BUF_LEN;
+	char *copy_position = msg ;
 	int copy_len = len > amnt_left ? amnt_left : len;
 
 	/* are we at the end of the buffer? */
@@ -66,7 +66,7 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 		return -EINVAL;
 
 	/* adjust the offset for this process */
-	*offset += copy_len;
+	
 	
 	
 
