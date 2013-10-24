@@ -2,11 +2,8 @@
 #include <linux/slab.h>
 
 struct node{
-<<<<<<< HEAD
+
 	char val[10];
-=======
-	char[10] val;
->>>>>>> 11284f76f331dcbcebd109de15a69d92d8abc7ba
 	struct node* next;
 };
 
@@ -80,7 +77,7 @@ static inline int kq_enqueue(struct kqueue *kq, char string[10]){
 	return 1;
 }
 
-<<<<<<< HEAD
+
 static inline void kq_dequeue(struct kqueue *kq,char element[10]){
 	
 	struct node* pop =kq->head;
