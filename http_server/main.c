@@ -271,12 +271,11 @@ server_thread_pool_blocking(int accept_fd)
 }
 
 void*
-kernel_worker(void* nthreads_p)
+kernel_worker()
 {
 //worker routine
 	//int qdev = (int) qdev_p;
-	int nthreads = 0;
-	while (nthreads<MAX_CONCURRENCY){nthreads = *((int*)nthreads_p);}
+
 	char* fd_b = (char*) malloc(sizeof(char)*10);
 	int fd;
 	printf("newthread started\n");
@@ -303,7 +302,7 @@ server_char_device_queue(int accept_fd)
 
 	//create threads
 	for(ii=0; ii<MAX_CONCURRENCY; ii++){
-		pthread_create(&pool[ii],NULL,&kernel_worker,(void*) &ii);
+		pthread_create(&pool[ii],NULL,&kernel_worker,NULL);
 		//printf("made thread: %d\n",(int) pool[ii]);
 	}
 	printf("created threads\n");

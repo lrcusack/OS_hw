@@ -17,14 +17,14 @@ static int device_open(struct inode *inode, struct file *file)
 {
 	
 	try_module_get(THIS_MODULE);
-	//kq = kq_create();
+	kq = kq_create();
 	return 0;
 }
 
 
 static int device_release(struct inode *inode, struct file *file)
 {
-	//kq_delete(kq);
+	kq_delete(kq);
 	module_put(THIS_MODULE);
 	return 0;
 }
@@ -41,7 +41,7 @@ static ssize_t device_write(struct file *filp, const char *buff,
 	//if (copy_len == amnt_copied) return -EINVAL;
 		
 
-	//kq_enqueue(kq,(char*)msg);
+	kq_enqueue(kq,(char*)msg);
 
 
 	return copy_len - amnt_copied;
@@ -60,7 +60,7 @@ static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 	if (amnt_left <= 0)
 		return 0;
 		
-	//kq_dequeue(kq,(char*) msg);
+	kq_dequeue(kq,(char*) msg);
 	
 	/* NOTE: copy_to_user returns the amount of bytes _not_ copied */
 	amnt_copied = copy_to_user(buffer, msg, copy_len);
