@@ -50,7 +50,7 @@ static inline int kq_enqueue(struct kqueue *kq, char* string){
 
 	struct node* new;
 	new=(struct node*) kmalloc(sizeof(struct node),GFP_KERNEL);
-	new->val = kmalloc((size_t) 10,GFP_KERNEL);
+	new->val = kmalloc(sizeof(char)*10,GFP_KERNEL);
 	
 	if(!new){
 		printk("can't create node\n");

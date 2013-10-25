@@ -1,0 +1,3 @@
+#!/bin/bash
+
+geany osqueue/chardev.c osqueue/kqueue.h http_server/main.c &

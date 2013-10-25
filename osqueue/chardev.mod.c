@@ -19,10 +19,7 @@ __attribute__((section("__versions"))) = {
 	{ 0x89e24b9c, "struct_module" },
 	{ 0x2da418b5, "copy_to_user" },
 	{ 0xf2a644fb, "copy_from_user" },
-	{ 0x19070091, "kmem_cache_alloc" },
-	{ 0xab978df6, "malloc_sizes" },
 	{ 0x40e4fec5, "wake_up_process" },
-	{ 0x37a0cba, "kfree" },
 	{ 0x4086729e, "register_chrdev" },
 	{ 0x1b7d4074, "printk" },
 	{ 0xc192d491, "unregister_chrdev" },
@@ -34,4 +31,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "39DDE796D2F6D85F937F3F5");
+MODULE_INFO(srcversion, "FE2D158196169919F1A5F77");

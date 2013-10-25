@@ -271,16 +271,18 @@ server_thread_pool_blocking(int accept_fd)
 }
 
 void*
-kernel_worker()
+kernel_worker(void* nthreads_p)
 {
 //worker routine
 	//int qdev = (int) qdev_p;
-	char fd_b[INTBUF];
+	int nthreads = 0;
+	while (nthreads<MAX_CONCURRENCY){nthreads = *((int*)nthreads_p);}
+	char* fd_b = (char*) malloc(sizeof(char)*10);
 	int fd;
 	printf("newthread started\n");
 	while(1){
-		if(read(qdev,fd_b,INTBUF)){
-			fd = (int) fd_b;
+		if(!(read(qdev,fd_b,INTBUF))){
+			fd = atoi(fd_b);
 			client_process(fd);
 		}
 	}
@@ -301,7 +303,7 @@ server_char_device_queue(int accept_fd)
 
 	//create threads
 	for(ii=0; ii<MAX_CONCURRENCY; ii++){
-		pthread_create(&pool[ii],NULL,&kernel_worker,NULL);
+		pthread_create(&pool[ii],NULL,&kernel_worker,(void*) &ii);
 		//printf("made thread: %d\n",(int) pool[ii]);
 	}
 	printf("created threads\n");
@@ -312,7 +314,7 @@ server_char_device_queue(int accept_fd)
 		write(qdev, fdstring, INTBUF);	
 		printf("wrote to device\n");
 		bzero(fdstring,INTBUF);
-		break;
+		//break;
 	}
 	
 	close(qdev);
