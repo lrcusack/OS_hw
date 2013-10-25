@@ -1,9 +1,10 @@
 #include "chardev.h"
 #include <linux/slab.h>
 
+
 struct node{
 
-	char val[10];
+	char* val;
 	struct node* next;
 };
 
@@ -28,7 +29,7 @@ static inline struct kqueue* kq_create(void){
 static inline void kq_delete(struct kqueue *kq){
 	struct node* curr = kq->head;
 	int ii;
-	for(ii=0; ii < (kq->length-1); ii++){
+	for(ii=0; ii < (kq->length); ii++){
 
 		kq->head=kq->head->next;
 		kfree(curr);
@@ -45,11 +46,11 @@ static inline void kq_delete(struct kqueue *kq){
 }
 
 
-static inline int kq_enqueue(struct kqueue *kq, char string[10]){
+static inline int kq_enqueue(struct kqueue *kq, char* string){
 
 	struct node* new;
 	new=(struct node*) kmalloc(sizeof(struct node),GFP_KERNEL);
-	//struct node* tracker=kq->head;
+	new->val = kmalloc((size_t) 10,GFP_KERNEL);
 	
 	if(!new){
 		printk("can't create node\n");

@@ -45,7 +45,7 @@
 
 #define MAX_DATA_SZ 1024
 #define MAX_CONCURRENCY 256
-#define INTBUF sizeof(int)
+#define INTBUF (size_t) 10
 
 pthread_mutex_t* thor;
 pthread_cond_t* ironman;
@@ -277,7 +277,7 @@ kernel_worker()
 	//int qdev = (int) qdev_p;
 	char fd_b[INTBUF];
 	int fd;
-
+	printf("newthread started\n");
 	while(1){
 		if(read(qdev,fd_b,INTBUF)){
 			fd = (int) fd_b;
@@ -291,10 +291,10 @@ server_char_device_queue(int accept_fd)
 {
 	printf("called server subroutine\n");
 	qdev = open("/dev/osqueue",O_RDWR);
-	if(qdev==-1) printf("error opening /dev/osqueue");
+	if(qdev<0) printf("error opening /dev/osqueue");
 	printf("got file descriptor for osqueue\n");
 	int fd;
-	char fdstring[10];
+	char* fdstring = (char*) malloc(INTBUF);
 	
 	pthread_t pool[MAX_CONCURRENCY];
 	int ii;
@@ -309,9 +309,9 @@ server_char_device_queue(int accept_fd)
 		fd = server_accept(accept_fd);
 		printf("accepted request\n");
 		sprintf(fdstring,"%d",fd);
-		write(qdev, fdstring, sizeof(fdstring));	
+		write(qdev, fdstring, INTBUF);	
 		printf("wrote to device\n");
-		bzero(fdstring,sizeof(fdstring));
+		bzero(fdstring,INTBUF);
 		break;
 	}
 	

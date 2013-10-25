@@ -50,7 +50,8 @@ static ssize_t device_write(struct file *filp, const char *buff,
 static ssize_t device_read(struct file *filp, char *buffer, size_t len,
 			   loff_t * offset)
 {
-	unsigned long amnt_copied;
+	printk("starting to read\n");
+	unsigned long amnt_copied= 0;
 	int amnt_left = BUF_LEN;
 	int copy_len = len > amnt_left ? amnt_left : len;
 
