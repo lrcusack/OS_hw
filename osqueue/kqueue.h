@@ -47,7 +47,6 @@ static inline void kq_delete(struct kqueue *kq){
 
 static inline int kq_enqueue(struct kqueue *kq, char string[10]){
 
-
 	struct node* new;
 	new=(struct node*) kmalloc(sizeof(struct node),GFP_KERNEL);
 	//struct node* tracker=kq->head;
@@ -78,11 +77,11 @@ static inline int kq_enqueue(struct kqueue *kq, char string[10]){
 }
 
 
-static inline void kq_dequeue(struct kqueue *kq,char element[10]){
+static inline void kq_dequeue(struct kqueue *kq,char* element){
 	
 	struct node* pop =kq->head;
 	
-	strcpy(element,kq->head->val);
+	strncpy(element,kq->head->val,10);
 	kq->head=kq->head->next;
 	
 	kq->length--;
